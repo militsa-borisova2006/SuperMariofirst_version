@@ -29,9 +29,9 @@ public class MarioGame extends JFrame{
         setResizable(true);//Big screen
 
         // Load images
-        background = new ImageIcon(".idea/SuperMario_Images/SuperMario_background.png"); // Replace with background image
-        marioImage = new ImageIcon(".idea/SuperMario_Images/SuperMario_Image.png"); // Replace with Mario image
-        obstacleImage = new ImageIcon(".idea/SuperMario_Images/SuperMario_Obstacles.png"); // Replace with obstacle image
+        background = new ImageIcon("src/SuperMario_Images/SuperMario_background.png"); // Replace with background image
+        marioImage = new ImageIcon("src/SuperMario_Images/SuperMario_Character.png"); // Replace with Mario image
+        obstacleImage = new ImageIcon("src/SuperMario_Images/SuperMario_Tube.png"); // Replace with obstacle image
 
         // Set initial positions
         marioX = 150;
