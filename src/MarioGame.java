@@ -2,8 +2,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
-public class MarioGame extends JFrame{
+public class MarioGame extends JFrame implements KeyListener {
     //Frame sizes, Mario and obstacles, Mario speed
     private static final int FRAME_WIDTH = 1500;
     private static final int FRAME_HEIGHT = 800;
@@ -14,13 +16,15 @@ public class MarioGame extends JFrame{
     private static final int MARIO_SPEED = 5;
 //image variables
     private ImageIcon background;
-    private ImageIcon marioImage;
+    private ImageIcon marioImageJump;
+    private ImageIcon marioImageRun;
     private ImageIcon obstacleImage;
 
     private int marioX;
     private int marioY;
     private int[] obstacleX = {400, 600, 1000}; // Initial x-coordinates of three obstacles
     private int obstacleY;
+    private boolean jumped;
 
     public MarioGame() {
         setTitle("Super Mario Game");
@@ -30,7 +34,8 @@ public class MarioGame extends JFrame{
 
         // Load images
         background = new ImageIcon("src/SuperMario_Images/SuperMario_background.png"); // Replace with background image
-        marioImage = new ImageIcon("src/SuperMario_Images/SuperMario_Character.png"); // Replace with Mario image
+        marioImageJump = new ImageIcon("src/SuperMario_Images/SuperMario_Character.png"); // Replace with Mario image
+        marioImageRun = new ImageIcon("src/SuperMario_Images/mario_running.png");
         obstacleImage = new ImageIcon("src/SuperMario_Images/SuperMario_Tube.png"); // Replace with obstacle image
 
         // Set initial positions
@@ -47,6 +52,8 @@ public class MarioGame extends JFrame{
             }
         });
         timer.start();//This starts the timer, initiating the animation loop.
+        addKeyListener(this);
+        this.addKeyListener(this);
     }
 
     private void moveMario() {
@@ -71,7 +78,8 @@ public class MarioGame extends JFrame{
     }
 
     private void drawMario(Graphics g) {
-        g.drawImage(marioImage.getImage(), marioX, marioY, MARIO_WIDTH, MARIO_HEIGHT, null);
+        if (jumped) g.drawImage(marioImageJump.getImage(), marioX, marioY, MARIO_WIDTH, MARIO_HEIGHT, null);
+        else g.drawImage(marioImageRun.getImage(), marioX, marioY, MARIO_WIDTH, MARIO_HEIGHT, null);
     }
 
     private void drawObstacles(Graphics g) {
@@ -83,5 +91,30 @@ public class MarioGame extends JFrame{
     public static void main(String[] args) {
                 MarioGame game = new MarioGame();
                 game.setVisible(true);
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    public void keyPressed(KeyEvent e) {
+        int key = e.getKeyCode();
+        if (key == KeyEvent.VK_SPACE && !jumped) {
+            int y = marioY - 100;
+            marioY=y;
+            jumped=true;
+            repaint();
+        }
+    }
+
+    public void keyReleased(KeyEvent e) {
+        int key = e.getKeyCode();
+        if (key == KeyEvent.VK_SPACE && jumped) {
+            int y = marioY + 100;
+            marioY=y;
+            jumped=false;
+            repaint();
+        }
     }
 }
